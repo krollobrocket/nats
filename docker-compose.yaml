@@ -1,0 +1,23 @@
+services:
+  publisher:
+    build:
+      dockerfile: ./publisher.Dockerfile
+      args:
+        PUB_PORT: 3002
+        NATS_HOST: nats
+        NATS_PORT: 4222
+    ports:
+      - "${PUB_PORT:-3002}:${PUB_PORT:-3002}"
+  subscriber:
+    build:
+      dockerfile: ./subscriber.Dockerfile
+      args:
+        SUB_PORT: 3001
+        NATS_HOST: nats
+        NATS_PORT: 4222
+    ports:
+      - "${SUB_PORT:-3001}:${SUB_PORT:-3001}"
+  nats:
+    image: "nats:2.6"
+    ports:
+      - "4222:4222"
